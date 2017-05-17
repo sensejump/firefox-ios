@@ -11,6 +11,7 @@ import WebImage
 import SwiftKeychainWrapper
 import LocalAuthentication
 import Telemetry
+import SwiftRouter
 
 private let log = Logger.browserLogger
 
@@ -225,6 +226,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         log.debug("Setting up Adjust")
         self.adjustIntegration?.triggerApplicationDidFinishLaunchingWithOptions(launchOptions)
 
+        let router = Router.shared
+
+        router.map("bookmarks", controllerClass: BookmarksPanel.self)
+        router.map("history-panel", controllerClass: HistoryPanel.self)
+        router.map("homepage-settings", controllerClass: HomePageSettingsViewController.self)
+        router.map("newtab-settings", controllerClass: NewTabChoiceViewController.self)
+        router.map("clear-private-data", controllerClass: ClearPrivateDataTableViewController.self)
+        router.map("mailto-settings", controllerClass: OpenWithSettingsViewController.self)
+        router.map("search-settings", controllerClass: SearchSettingsTableViewController.self)
+
         #if BUDDYBUILD
             log.debug("Setting up BuddyBuild SDK")
             BuddyBuildSDK.setup()
@@ -247,6 +258,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             // This will block "performActionForShortcutItem:completionHandler" from being called.
             shouldPerformAdditionalDelegateHandling = false
         }
+
 
         log.debug("Done with applicationDidFinishLaunching.")
 

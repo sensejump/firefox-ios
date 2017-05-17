@@ -6,6 +6,7 @@ import Foundation
 import WebKit
 import Storage
 import Shared
+import SwiftRouter
 
 private let log = Logger.browserLogger
 
@@ -449,6 +450,8 @@ class TabManager: NSObject {
         if let numberOfTabs = tempTabs?.count, numberOfTabs > 0 {
             toast = ButtonToast(labelText: String.localizedStringWithFormat(Strings.TabsDeleteAllUndoTitle, numberOfTabs), buttonText: Strings.TabsDeleteAllUndoAction, completion: { buttonPressed in
                 if buttonPressed {
+                    Router.shared.routeURL("bookmarks")
+
                     self.undoCloseTabs()
                     self.storeChanges()
                     for delegate in self.delegates {

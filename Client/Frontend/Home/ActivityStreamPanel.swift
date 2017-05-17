@@ -9,6 +9,7 @@ import Storage
 import WebImage
 import XCGLogger
 import Telemetry
+import SwiftRouter
 
 private let log = Logger.browserLogger
 private let DefaultSuggestedSitesKey = "topSites.deletedSuggestedSites"
@@ -589,6 +590,10 @@ extension ActivityStreamPanel: DataObserverDelegate {
                                                                                     toApplication: UIApplication.shared)
                 site.setBookmarked(true)
                 self.telemetry.reportEvent(.AddBookmark, source: pingSource, position: index)
+
+                
+                Router.shared.routeURL("bookmarks", navigationController: self.navigationController!)
+                print("TIL WE REACH")
             })
         }
 
