@@ -102,6 +102,7 @@ class ActivityStreamPanel: UICollectionViewController, HomePanel {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: {context in
+            self.presentedViewController?.dismiss(animated: true, completion: nil)
             self.collectionViewLayout.invalidateLayout()
             self.collectionView?.reloadData()
         }, completion: nil)
@@ -503,7 +504,9 @@ extension ActivityStreamPanel: DataObserverDelegate {
     func presentContextMenu(_ contextMenu: ActionOverlayTableViewController) {
         contextMenu.modalPresentationStyle = .overFullScreen
         contextMenu.modalTransitionStyle = .crossDissolve
+
         self.present(contextMenu, animated: true, completion: nil)
+
     }
 
     func presentContextMenuForTopSiteCellWithIndexPath(_ indexPath: IndexPath) {
@@ -557,12 +560,12 @@ extension ActivityStreamPanel: DataObserverDelegate {
             pingSource = .HighlightsIntro
         }
 
-        let openInNewTabAction = ActionOverlayTableViewAction(title: Strings.OpenInNewTabContextMenuTitle, iconString: "action_new_tap") { action in
+        let openInNewTabAction = ActionOverlayTableViewAction(title: Strings.OpenInNewTabContextMenuTitle, iconString: "action_new_tab") { action in
             self.homePanelDelegate?.homePanelDidRequestToOpenInNewTab(siteURL, isPrivate: false)
             self.telemetry.reportEvent(.NewTab, source: pingSource, position: index)
         }
 
-        let openInNewPrivateTabAction = ActionOverlayTableViewAction(title: Strings.OpenInNewPrivateTabContextMenuTitle, iconString: "action_new_tap_private") { action in
+        let openInNewPrivateTabAction = ActionOverlayTableViewAction(title: Strings.OpenInNewPrivateTabContextMenuTitle, iconString: "action_new_tab_private") { action in
             self.homePanelDelegate?.homePanelDidRequestToOpenInNewTab(siteURL, isPrivate: true)
         }
 
